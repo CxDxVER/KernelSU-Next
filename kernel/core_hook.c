@@ -815,7 +815,7 @@ static int ksu_inode_permission(struct inode *inode, int mask)
 }
 
 // kernel 4.9 and older
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0) || defined(CONFIG_IS_HW_HISI) || defined(CONFIG_KSU_ALLOWLIST_WORKAROUND)
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0) || defined(CONFIG_IS_HW_HISI) || defined(CONFIG_KSU_ALLOWLIST_WORKAROUND) || LINUX_VERSION_CODE < KERNEL_VERSION(5, 4, 0) && defined(CONFIG_SAMSUNG_PRODUCT_SHIP)
 int ksu_key_permission(key_ref_t key_ref, const struct cred *cred,
 			      unsigned perm)
 {
@@ -858,7 +858,7 @@ static struct security_hook_list ksu_hooks[] = {
 	LSM_HOOK_INIT(inode_rename, ksu_inode_rename),
 	LSM_HOOK_INIT(task_fix_setuid, ksu_task_fix_setuid),
 	LSM_HOOK_INIT(inode_permission, ksu_inode_permission),
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0) || defined(CONFIG_IS_HW_HISI) || defined(CONFIG_KSU_ALLOWLIST_WORKAROUND)
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0) || defined(CONFIG_IS_HW_HISI) || defined(CONFIG_KSU_ALLOWLIST_WORKAROUND) || LINUX_VERSION_CODE < KERNEL_VERSION(5, 4, 0) && defined(CONFIG_SAMSUNG_PRODUCT_SHIP)
 	LSM_HOOK_INIT(key_permission, ksu_key_permission)
 #endif
 };
